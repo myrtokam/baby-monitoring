@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 MomBaby Journal - Το Ημερολόγιο μας</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --baby-pink: #FFB6D9;
+            --soft-purple: #D4A5E0;
+            --mint-cream: #B8E6D5;
+            --peach: #FFD4B8;
+            --lavender: #E8D5F2;
+            --cream: #FFF9F5;
+            --rose-gold: #F4C2C2;
+            --sky-blue: #B8E2F2;
+            --text-dark: #5A5A5A;
+            --text-light: #8B8B8B;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--lavender) 50%, var(--mint-cream) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Floating hearts background */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.3; }
+        }
+
+        .heart-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.2;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(255, 182, 217, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--baby-pink), var(--soft-purple), var(--mint-cream));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-family: 'Caveat', cursive;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            padding: 15px 30px;
+            border: 3px solid var(--baby-pink);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 182, 217, 0.4);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--baby-pink), var(--soft-purple));
+            color: white;
+            border-color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Getting Started Section */
+        .getting-started {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(212, 165, 224, 0.2);
+            text-align: center;
+        }
+
+        .getting-started h2 {
+            font-size: 2.5em;
+            color: var(--soft-purple);
+            margin-bottom: 30px;
+            font-family: 'Caveat', cursive;
+        }
+
+        .option-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .option-card {
+            background: linear-gradient(135deg, var(--lavender), var(--baby-pink));
+            padding: 40px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 4px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px) rotate(-2deg);
+            box-shadow: 0 20px 50px rgba(212, 165, 224, 0.5);
+        }
+
+        .option-card .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .option-card h3 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .option-card p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Setup Form */
+        .setup-form {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .setup-form h3 {
+            font-size: 2em;
+            color: var(--soft-purple);
+            margin-bottom: 25px;
+            font-family: 'Caveat', cursive;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 2px solid var(--lavender);
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: 'Quicksand', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--baby-pink);
+            box-shadow: 0 0 0 3px rgba(255, 182, 217, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--soft-purple), var(--baby-pink));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 8px 20px rgba(212, 165, 224, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 165, 224, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--mint-cream), var(--sky-blue));
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--peach), var(--rose-gold));
+            padding: 10px 20px;
+            font-size: 0.95em;
+        }
+
+        /* Data Entry Section */
+        .data-entry {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-entry h3 {
+            font-size: 2em;
+            color: var(--baby-pink);
+            margin-bottom: 20px;
+            font-family: 'Caveat', cursive;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .quick-btn {
+            background: linear-gradient(135deg, var(--baby-pink), var(--rose-gold));
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+        }
+
+        .quick-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 182, 217, 0.4);
+        }
+
+        .quick-btn .icon {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        /* Entry List */
+        .entry-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .entry-item {
+            background: linear-gradient(135deg, rgba(255, 182, 217, 0.1), rgba(212, 165, 224, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--baby-pink);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .entry-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .entry-info {
+            flex: 1;
+        }
+
+        .entry-time {
+            font-weight: 600;
+            color: var(--soft-purple);
+            margin-bottom: 5px;
+        }
+
+        .entry-details {
+            color: var(--text-light);
+        }
+
+        .entry-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            border-radius: 15px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            font-size: 2em;
+            color: var(--baby-pink);
+            font-family: 'Caveat', cursive;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--baby-pink);
+            transform: rotate(90deg);
+        }
+
+        /* Stats Display */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.pink { border-color: var(--baby-pink); }
+        .stat-card.purple { border-color: var(--soft-purple); }
+        .stat-card.mint { border-color: var(--mint-cream); }
+        .stat-card.peach { border-color: var(--peach); }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--baby-pink);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .file-upload-card {
+            background: linear-gradient(135deg, var(--baby-pink), var(--rose-gold));
+            padding: 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid white;
+            text-align: center;
+        }
+
+        .file-upload-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 182, 217, 0.5);
+        }
+
+        .file-upload-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .file-upload-card h4 {
+            color: white;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85em;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .option-cards { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="heart-bg" id="heartBg"></div>
+
+<div class="container">
+    <header>
+        <h1>💕 MomBaby Journal 👶</h1>
+        <p class="tagline">Το πιο γλυκό ημερολόγιο για σένα και το μωράκι σου! ✨</p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="start" onclick="switchTab('start', this)">🏠 Αρχική</button>
+        <button class="tab-btn" data-tab="baby" onclick="switchTab('baby', this)" id="babyBtn">👶 Μωράκι</button>
+        <button class="tab-btn" data-tab="mama" onclick="switchTab('mama', this)" id="mamaBtn">🤰 Μαμά</button>
+        <button class="tab-btn" data-tab="stats" onclick="switchTab('stats', this)">📊 Στατιστικά</button>
+        <button class="tab-btn" data-tab="upload" onclick="switchTab('upload', this)">📁 Ανέβασμα</button>
+    </div>
+
+    <!-- Getting Started Tab -->
+    <div class="tab-content active" id="startTab">
+        <div class="getting-started">
+            <h2>🌸 Καλώς ήρθες αγάπη μου! 🌸</h2>
+            <p style="font-size: 1.2em; color: var(--text-light); margin-bottom: 40px;">
+                Πώς θα ήθελες να ξεκινήσεις το ημερολόγιο σου;
+            </p>
+
+            <div class="option-cards">
+                <div class="option-card" onclick="startFresh()">
+                    <div class="icon">✨</div>
+                    <h3>Νέα Έναρξη</h3>
+                    <p>Ξεκίνα από την αρχή! Θα καταχωρήσεις τα στοιχεία σου και θα αρχίσεις να γράφεις το ημερολόγιό σου.</p>
+                </div>
+
+                <div class="option-card" data-tab="upload" onclick="switchTab('upload', this)">
+                    <div class="icon">📁</div>
+                    <h3>Έχω Αρχεία</h3>
+                    <p>Ανέβασε τα CSV αρχεία που έχεις ήδη και δες όλα τα στατιστικά σου!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Baby Tab -->
+    <div class="tab-content" id="babyTab">
+        <div class="setup-form" id="babySetup" style="display: none;">
+            <h3>👶 Στοιχεία Μωρού</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Όνομα Μωρού *</label>
+                    <input type="text" id="babyName" placeholder="π.χ. Σοφία">
+                </div>
+                <div class="form-group">
+                    <label>Ημερομηνία Γέννησης *</label>
+                    <input type="date" id="babyBirthDate">
+                </div>
+                <div class="form-group">
+                    <label>Βάρος Γέννησης (kg)</label>
+                    <input type="number" step="0.1" id="babyBirthWeight" placeholder="π.χ. 3.2">
+                </div>
+                <div class="form-group">
+                    <label>Ύψος Γέννησης (cm)</label>
+                    <input type="number" id="babyBirthHeight" placeholder="π.χ. 50">
+                </div>
+                <div class="form-group">
+                    <label>Ομάδα Αίματος</label>
+                    <select id="babyBloodType">
+                        <option value="">Επιλέξτε...</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Φύλο</label>
+                    <select id="babyGender">
+                        <option value="">Επιλέξτε...</option>
+                        <option value="female">Κοριτσάκι</option>
+                        <option value="male">Αγοράκι</option>
+                    </select>
+                </div>
+            
+                <div class="form-group">
+                    <label>Περίμετρος Κεφαλιού Γέννησης (cm)</label>
+                    <input type="number" step="0.1" id="babyBirthHeadCircumference" placeholder="π.χ. 34">
+                </div>
+                <div class="form-group">
+                    <label>Σημειώσεις</label>
+                    <textarea id="babyNotes" rows="3" placeholder="π.χ. Παρατηρήσεις, αλλεργίες, ιδιαιτερότητες..."></textarea>
+                </div>
+</div>
+            <button class="btn" onclick="saveBabyProfile()">💕 Αποθήκευση</button>
+        </div>
+
+        <div class="data-entry" id="babyData" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h3>👶 Καταγραφή για το Μωράκι</h3>
+                <button class="btn btn-secondary btn-small" onclick="exportBabyData()">📥 Εξαγωγή CSV</button>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="openModal('feeding')">
+                    <span class="icon">🍼</span>
+                    Ταΐσμα
+                </button>
+                <button class="quick-btn" onclick="openModal('sleep')">
+                    <span class="icon">😴</span>
+                    Ύπνος
+                </button>
+                <button class="quick-btn" onclick="openModal('diaper')">
+                    <span class="icon">💩</span>
+                    Πάνα
+                </button>
+                <button class="quick-btn" onclick="openModal('temperature')">
+                    <span class="icon">🌡️</span>
+                    Θερμοκρασία
+                </button>
+            </div>
+
+            <h4 style="margin: 30px 0 15px 0; color: var(--soft-purple); font-family: 'Caveat', cursive; font-size: 1.5em;">
+                Σημερινές Καταχωρήσεις
+            </h4>
+            <div class="entry-list" id="babyEntries">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🍼</div>
+                    <p>Δεν έχεις καταγράψει τίποτα ακόμα σήμερα!</p>
+                    <p>Πάτα τα κουμπιά παραπάνω για να ξεκινήσεις 💕</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mama Tab -->
+    <div class="tab-content" id="mamaTab">
+        <div class="setup-form" id="mamaSetup" style="display: none;">
+            <h3>🤰 Στοιχεία Μαμάς</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Όνομα Μαμάς *</label>
+                    <input type="text" id="mamaName" placeholder="π.χ. Μαρία">
+                </div>
+                <div class="form-group">
+                    <label>Τελευταία Περίοδος (LMP)</label>
+                    <input type="date" id="mamaLMP">
+                </div>
+                <div class="form-group">
+                    <label>Πιθανή Ημερομηνία Τοκετού (EDD)</label>
+                    <input type="date" id="mamaDueDate">
+                </div>
+                <div class="form-group">
+                    <label>Ομάδα Αίματος</label>
+                    <select id="mamaBloodType">
+                        <option value="">Επιλέξτε...</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Ημερομηνία Τοκετού</label>
+                    <input type="date" id="mamaDeliveryDate">
+                </div>
+                <div class="form-group">
+                    <label>Βάρος Πριν (kg)</label>
+                    <input type="number" step="0.1" id="mamaPreWeight" placeholder="π.χ. 65">
+                </div>
+                <div class="form-group">
+                    <label>Ύψος (cm)</label>
+                    <input type="number" id="mamaHeight" placeholder="π.χ. 165">
+                </div>
+                <div class="form-group">
+                    <label>Γιατρός</label>
+                    <input type="text" id="mamaDoctor" placeholder="π.χ. Δρ. Παπαδόπουλος">
+                </div>
+                <div class="form-group">
+                    <label>Τηλέφωνο Γιατρού</label>
+                    <input type="tel" id="mamaDoctorPhone" placeholder="π.χ. 210-1234567">
+                </div>
+                <div class="form-group">
+                    <label>Νοσοκομείο / Μαιευτήριο</label>
+                    <input type="text" id="mamaHospital" placeholder="π.χ. ΙΑΣΩ">
+                </div>
+                <div class="form-group">
+                    <label>Αλλεργίες</label>
+                    <input type="text" id="mamaAllergies" placeholder="π.χ. Πενικιλίνη">
+                </div>
+                <div class="form-group">
+                    <label>Χρόνιες Παθήσεις</label>
+                    <input type="text" id="mamaChronicConditions" placeholder="π.χ. Θυρεοειδής, διαβήτης...">
+                </div>
+                <div class="form-group">
+                    <label>Τύπος Τοκετού</label>
+                    <select id="mamaDeliveryType">
+                        <option value="">Επιλέξτε...</option>
+                        <option value="vaginal">Φυσιολογικός</option>
+                        <option value="c_section">Καισαρική</option>
+                        <option value="assisted">Υποβοηθούμενος</option>
+                        <option value="other">Άλλο</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Όνομα Μωρού</label>
+                    <input type="text" id="mamaBabyName" placeholder="π.χ. Σοφία">
+                </div>
+                <div class="form-group">
+                    <label>Σημειώσεις</label>
+                    <textarea id="mamaNotes" rows="3" placeholder="π.χ. Σημειώσεις για την εγκυμοσύνη/λοχεία..."></textarea>
+                </div>
+
+            </div>
+            <button class="btn" onclick="saveMamaProfile()">💕 Αποθήκευση</button>
+        </div>
+
+        <div class="data-entry" id="mamaData" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h3>🤰 Καταγραφή για τη Μαμά</h3>
+                <button class="btn btn-secondary btn-small" onclick="exportMamaData()">📥 Εξαγωγή CSV</button>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="openModal('mood')">
+                    <span class="icon">💭</span>
+                    Διάθεση
+                </button>
+                <button class="quick-btn" onclick="openModal('sleep-mama')">
+                    <span class="icon">😴</span>
+                    Ύπνος
+                </button>
+                <button class="quick-btn" onclick="openModal('breastfeeding')">
+                    <span class="icon">🤱</span>
+                    Θηλασμός
+                </button>
+                <button class="quick-btn" onclick="openModal('exercise')">
+                    <span class="icon">🚶‍♀️</span>
+                    Άσκηση
+                </button>
+            </div>
+
+            <h4 style="margin: 30px 0 15px 0; color: var(--soft-purple); font-family: 'Caveat', cursive; font-size: 1.5em;">
+                Σημερινές Καταχωρήσεις
+            </h4>
+            <div class="entry-list" id="mamaEntries">
+                <div class="empty-state">
+                    <div class="empty-state-icon">💕</div>
+                    <p>Δεν έχεις καταγράψει τίποτα ακόμα σήμερα!</p>
+                    <p>Πάτα τα κουμπιά παραπάνω για να ξεκινήσεις 💕</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Tab -->
+    <div class="tab-content" id="statsTab">
+        <div class="setup-form">
+            <h3>📊 Τα Στατιστικά μας</h3>
+            <div class="stats-grid" id="statsDisplay">
+                <div class="stat-card pink">
+                    <div class="stat-icon">🍼</div>
+                    <div class="stat-value" id="feedingCount">0</div>
+                    <div class="stat-label">Ταΐσματα Σήμερα</div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon">😴</div>
+                    <div class="stat-value" id="sleepHours">0</div>
+                    <div class="stat-label">Ώρες Ύπνου Baby</div>
+                </div>
+                <div class="stat-card mint">
+                    <div class="stat-icon">💩</div>
+                    <div class="stat-value" id="diaperCount">0</div>
+                    <div class="stat-label">Πάνες Σήμερα</div>
+                </div>
+                <div class="stat-card peach">
+                    <div class="stat-icon">💭</div>
+                    <div class="stat-value" id="moodAvg">-</div>
+                    <div class="stat-label">Διάθεση Μαμάς</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Tab -->
+    <div class="tab-content" id="uploadTab">
+        <div class="upload-section">
+            <h3 style="font-size: 2em; color: var(--baby-pink); margin-bottom: 20px; font-family: 'Caveat', cursive;">
+                📁 Ανέβασε τα Αρχεία σου
+            </h3>
+            <p style="color: var(--text-light); margin-bottom: 30px;">
+                Ανέβασε CSV αρχεία για να δεις όλα τα στατιστικά σου! 💖
+            </p>
+
+            <div class="file-upload-grid">
+                <div class="file-upload-card" onclick="document.getElementById('babyProfileFile').click()">
+                    <div class="icon">👶</div>
+                    <h4>Baby Profile</h4>
+                    <p id="babyProfileFileName">Επιλέξτε αρχείο...</p>
+                    <input type="file" id="babyProfileFile" accept=".csv">
+                </div>
+
+                <div class="file-upload-card" onclick="document.getElementById('babyDataFile').click()">
+                    <div class="icon">🍼</div>
+                    <h4>Baby Data</h4>
+                    <p id="babyDataFileName">Επιλέξτε αρχείο...</p>
+                    <input type="file" id="babyDataFile" accept=".csv">
+                </div>
+
+                <div class="file-upload-card" onclick="document.getElementById('mamaProfileFile').click()">
+                    <div class="icon">🤰</div>
+                    <h4>Mama Profile</h4>
+                    <p id="mamaProfileFileName">Επιλέξτε αρχείο...</p>
+                    <input type="file" id="mamaProfileFile" accept=".csv">
+                </div>
+
+                <div class="file-upload-card" onclick="document.getElementById('mamaDataFile').click()">
+                    <div class="icon">💕</div>
+                    <h4>Mama Data</h4>
+                    <p id="mamaDataFileName">Επιλέξτε αρχείο...</p>
+                    <input type="file" id="mamaDataFile" accept=".csv">
+                </div>
+            </div>
+
+            <button class="btn" id="uploadAnalyzeBtn" disabled style="margin-top: 30px;">
+                ✨ Ανάλυση Αρχείων ✨
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Data Entry -->
+<div class="modal" id="entryModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Νέα Καταχώρηση</h3>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    // Create floating hearts
+    function createHearts() {
+        const heartBg = document.getElementById('heartBg');
+        const hearts = ['💕', '💖', '💗', '💓', '💝', '🌸', '🌺', '🦋', '✨', '⭐'];
+
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heartBg.appendChild(heart);
+        }
+    }
+
+    createHearts();
+
+    // Data storage
+    let appData = {
+        babyProfile: null,
+        mamaProfile: null,
+        babyEntries: [],
+        mamaEntries: []
+    };
+
+    // Load from localStorage
+    function loadFromStorage() {
+        const stored = localStorage.getItem('mombaby_data');
+        if (stored) {
+            appData = JSON.parse(stored);
+            updateUI();
+        }
+    }
+
+    // Save to localStorage
+    function saveToStorage() {
+        localStorage.setItem('mombaby_data', JSON.stringify(appData));
+    }
+
+    // Tab switching
+    function switchTab(tab, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        const targetBtn = btn || document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+        if (targetBtn) targetBtn.classList.add('active');
+
+        const panel = document.getElementById(tab + 'Tab');
+        if (panel) panel.classList.add('active');
+
+        updateUI();
+    }
+
+    // Start fresh
+    function startFresh() {
+        document.getElementById('babySetup').style.display = 'block';
+        document.getElementById('mamaSetup').style.display = 'block';
+        switchTab('baby');
+    }
+
+    // Save baby profile
+    function saveBabyProfile() {
+        appData.babyProfile = {
+            name: document.getElementById('babyName').value,
+            birthDate: document.getElementById('babyBirthDate').value,
+            birthWeight: document.getElementById('babyBirthWeight').value,
+            birthHeight: document.getElementById('babyBirthHeight').value,
+            bloodType: document.getElementById('babyBloodType').value,
+            gender: document.getElementById('babyGender').value,
+            birthHeadCircumference: document.getElementById('babyBirthHeadCircumference').value,
+            notes: document.getElementById('babyNotes').value
+        };
+
+        saveToStorage();
+        document.getElementById('babySetup').style.display = 'none';
+        document.getElementById('babyData').style.display = 'block';
+        alert('✨ Τα στοιχεία του μωρού αποθηκεύτηκαν!');
+    }
+
+    // Save mama profile
+    function saveMamaProfile() {
+        appData.mamaProfile = {
+            name: document.getElementById('mamaName').value,
+            deliveryDate: document.getElementById('mamaDeliveryDate').value,
+            preWeight: document.getElementById('mamaPreWeight').value,
+            height: document.getElementById('mamaHeight').value,
+            doctor: document.getElementById('mamaDoctor').value,
+            doctorPhone: document.getElementById('mamaDoctorPhone').value,
+            lastMenstrualPeriod: document.getElementById('mamaLMP').value,
+            expectedDueDate: document.getElementById('mamaDueDate').value,
+            bloodType: document.getElementById('mamaBloodType').value,
+            hospital: document.getElementById('mamaHospital').value,
+            allergies: document.getElementById('mamaAllergies').value,
+            chronicConditions: document.getElementById('mamaChronicConditions').value,
+            deliveryType: document.getElementById('mamaDeliveryType').value,
+            babyName: document.getElementById('mamaBabyName').value,
+            notes: document.getElementById('mamaNotes').value
+        };
+
+        saveToStorage();
+        document.getElementById('mamaSetup').style.display = 'none';
+        document.getElementById('mamaData').style.display = 'block';
+        alert('✨ Τα στοιχεία σου αποθηκεύτηκαν!');
+    }
+
+    // Open modal for data entry
+    function openModal(type) {
+        const modal = document.getElementById('entryModal');
+        const title = document.getElementById('modalTitle');
+        const body = document.getElementById('modalBody');
+
+        const forms = {
+            'feeding': `
+                    <div class="form-group">
+                        <label>Τύπος</label>
+                        <select id="feedingType">
+                            <option value="breast">Μητρικό</option>
+                            <option value="bottle">Μπιμπερό</option>
+                            <option value="solid">Στερεά</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ποσότητα (ml)</label>
+                        <input type="number" id="feedingAmount">
+                    </div>
+                    <div class="form-group">
+                        <label>Σημειώσεις</label>
+                        <textarea id="feedingNotes" rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="saveFeeding()">💕 Αποθήκευση</button>
+                `,
+            'sleep': `
+                    <div class="form-group">
+                        <label>Ώρα Έναρξης</label>
+                        <input type="time" id="sleepStart">
+                    </div>
+                    <div class="form-group">
+                        <label>Ώρα Αφύπνισης</label>
+                        <input type="time" id="sleepEnd">
+                    </div>
+                    <div class="form-group">
+                        <label>Ποιότητα</label>
+                        <select id="sleepQuality">
+                            <option value="peaceful">Ήρεμος</option>
+                            <option value="restless">Ανήσυχος</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="saveSleep()">💕 Αποθήκευση</button>
+                `,
+            'diaper': `
+                    <div class="form-group">
+                        <label>Τύπος</label>
+                        <select id="diaperType">
+                            <option value="wet">Υγρή</option>
+                            <option value="dirty">Βρώμικη</option>
+                            <option value="both">Και τα δύο</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Σημειώσεις</label>
+                        <textarea id="diaperNotes" rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="saveDiaper()">💕 Αποθήκευση</button>
+                `,
+            'temperature': `
+                    <div class="form-group">
+                        <label>Θερμοκρασία (°C)</label>
+                        <input type="number" step="0.1" id="tempValue">
+                    </div>
+                    <div class="form-group">
+                        <label>Μέθοδος</label>
+                        <select id="tempMethod">
+                            <option value="armpit">Μασχάλη</option>
+                            <option value="forehead">Μέτωπο</option>
+                            <option value="ear">Ωτική</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="saveTemperature()">💕 Αποθήκευση</button>
+                `,
+            'mood': `
+                    <div class="form-group">
+                        <label>Διάθεση (1-10)</label>
+                        <input type="range" min="1" max="10" id="moodScale" oninput="document.getElementById('moodValue').textContent=this.value">
+                        <div style="text-align: center; font-size: 2em; color: var(--baby-pink);" id="moodValue">5</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Κυρίαρχο Συναίσθημα</label>
+                        <select id="moodEmotion">
+                            <option value="happy">Χαρούμενη 😊</option>
+                            <option value="tired">Κουρασμένη 😴</option>
+                            <option value="anxious">Ανήσυχη 😰</option>
+                            <option value="stressed">Στρεσαρισμένη 😣</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Σημειώσεις</label>
+                        <textarea id="moodNotes" rows="3"></textarea>
+                    </div>
+                    <button class="btn" onclick="saveMood()">💕 Αποθήκευση</button>
+                `,
+            'sleep-mama': `
+                    <div class="form-group">
+                        <label>Ώρες Ύπνου</label>
+                        <input type="number" step="0.5" id="mamaSleepHours">
+                    </div>
+                    <div class="form-group">
+                        <label>Ποιότητα (1-10)</label>
+                        <input type="range" min="1" max="10" id="mamaSleepQuality" oninput="document.getElementById('sleepQualityValue').textContent=this.value">
+                        <div style="text-align: center; font-size: 2em; color: var(--baby-pink);" id="sleepQualityValue">5</div>
+                    </div>
+                    <button class="btn" onclick="saveMamaSleep()">💕 Αποθήκευση</button>
+                `,
+            'breastfeeding': `
+                    <div class="form-group">
+                        <label>Στήθος</label>
+                        <select id="breastSide">
+                            <option value="left">Αριστερό</option>
+                            <option value="right">Δεξί</option>
+                            <option value="both">Και τα δύο</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Διάρκεια (λεπτά)</label>
+                        <input type="number" id="breastDuration">
+                    </div>
+                    <button class="btn" onclick="saveBreastfeeding()">💕 Αποθήκευση</button>
+                `,
+            'exercise': `
+                    <div class="form-group">
+                        <label>Τύπος Άσκησης</label>
+                        <select id="exerciseType">
+                            <option value="walking">Περπάτημα</option>
+                            <option value="yoga">Γιόγκα</option>
+                            <option value="swimming">Κολύμβηση</option>
+                            <option value="other">Άλλο</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Διάρκεια (λεπτά)</label>
+                        <input type="number" id="exerciseDuration">
+                    </div>
+                    <button class="btn" onclick="saveExercise()">💕 Αποθήκευση</button>
+                `
+        };
+
+        const titles = {
+            'feeding': '🍼 Ταΐσμα',
+            'sleep': '😴 Ύπνος Μωρού',
+            'diaper': '💩 Αλλαγή Πάνας',
+            'temperature': '🌡️ Θερμοκρασία',
+            'mood': '💭 Διάθεση Μαμάς',
+            'sleep-mama': '😴 Ύπνος Μαμάς',
+            'breastfeeding': '🤱 Θηλασμός',
+            'exercise': '🚶‍♀️ Άσκηση'
+        };
+
+        title.textContent = titles[type];
+        body.innerHTML = forms[type];
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('entryModal').classList.remove('active');
+    }
+
+    // Save functions
+    function saveFeeding() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'feeding',
+            type: document.getElementById('feedingType').value,
+            amount: document.getElementById('feedingAmount').value,
+            notes: document.getElementById('feedingNotes').value
+        };
+        appData.babyEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateBabyEntries();
+        updateStats();
+    }
+
+    function saveSleep() {
+        const start = document.getElementById('sleepStart').value;
+        const end = document.getElementById('sleepEnd').value;
+        const duration = calculateDuration(start, end);
+
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: start,
+            activity: 'sleep',
+            duration: duration,
+            quality: document.getElementById('sleepQuality').value
+        };
+        appData.babyEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateBabyEntries();
+        updateStats();
+    }
+
+    function saveDiaper() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'diaper',
+            type: document.getElementById('diaperType').value,
+            notes: document.getElementById('diaperNotes').value
+        };
+        appData.babyEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateBabyEntries();
+        updateStats();
+    }
+
+    function saveTemperature() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'temperature',
+            value: document.getElementById('tempValue').value,
+            method: document.getElementById('tempMethod').value
+        };
+        appData.babyEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateBabyEntries();
+        updateStats();
+    }
+
+    function saveMood() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'mood',
+            scale: document.getElementById('moodScale').value,
+            emotion: document.getElementById('moodEmotion').value,
+            notes: document.getElementById('moodNotes').value
+        };
+        appData.mamaEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateMamaEntries();
+        updateStats();
+    }
+
+    function saveMamaSleep() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'mama_sleep',
+            hours: document.getElementById('mamaSleepHours').value,
+            quality: document.getElementById('mamaSleepQuality').value
+        };
+        appData.mamaEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateMamaEntries();
+        updateStats();
+    }
+
+    function saveBreastfeeding() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'breastfeeding',
+            side: document.getElementById('breastSide').value,
+            duration: document.getElementById('breastDuration').value
+        };
+        appData.mamaEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateMamaEntries();
+        updateStats();
+    }
+
+    function saveExercise() {
+        const entry = {
+            date: new Date().toISOString().split('T')[0],
+            time: new Date().toTimeString().split(' ')[0].slice(0,5),
+            activity: 'exercise',
+            type: document.getElementById('exerciseType').value,
+            duration: document.getElementById('exerciseDuration').value
+        };
+        appData.mamaEntries.push(entry);
+        saveToStorage();
+        closeModal();
+        updateMamaEntries();
+        updateStats();
+    }
+
+    // Helper functions
+    function calculateDuration(start, end) {
+        const [sh, sm] = start.split(':').map(Number);
+        const [eh, em] = end.split(':').map(Number);
+        let diff = (eh * 60 + em) - (sh * 60 + sm);
+        if (diff < 0) diff += 24 * 60; // cross midnight
+        return diff;
+    }
+
+    function updateBabyEntries() {
+        const list = document.getElementById('babyEntries');
+        const today = new Date().toISOString().split('T')[0];
+        const todayEntries = appData.babyEntries.filter(e => e.date === today);
+
+        if (todayEntries.length === 0) {
+            list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🍼</div>
+                        <p>Δεν έχεις καταγράψει τίποτα ακόμα σήμερα!</p>
+                    </div>
+                `;
+            return;
+        }
+
+        list.innerHTML = todayEntries.reverse().map((entry, index) => `
+                <div class="entry-item">
+                    <div class="entry-info">
+                        <div class="entry-time">⏰ ${entry.time}</div>
+                        <div class="entry-details">
+                            ${entry.activity === 'feeding' ? `🍼 Ταΐσμα (${entry.type}) - ${entry.amount || ''}ml` : ''}
+                            ${entry.activity === 'sleep' ? `😴 Ύπνος - ${entry.duration || 0} λεπτά` : ''}
+                            ${entry.activity === 'diaper' ? `💩 Πάνα (${entry.type})` : ''}
+                            ${entry.activity === 'temperature' ? `🌡️ Θερμοκρασία: ${entry.value}°C` : ''}
+                        </div>
+                    </div>
+                    <div class="entry-actions">
+                        <button class="btn btn-danger btn-small" onclick="deleteEntry('baby', ${appData.babyEntries.length - 1 - index})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    function updateMamaEntries() {
+        const list = document.getElementById('mamaEntries');
+        const today = new Date().toISOString().split('T')[0];
+        const todayEntries = appData.mamaEntries.filter(e => e.date === today);
+
+        if (todayEntries.length === 0) {
+            list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💕</div>
+                        <p>Δεν έχεις καταγράψει τίποτα ακόμα σήμερα!</p>
+                    </div>
+                `;
+            return;
+        }
+
+        list.innerHTML = todayEntries.reverse().map((entry, index) => `
+                <div class="entry-item">
+                    <div class="entry-info">
+                        <div class="entry-time">⏰ ${entry.time}</div>
+                        <div class="entry-details">
+                            ${entry.activity === 'mood' ? `💭 Διάθεση: ${entry.scale}/10 (${entry.emotion})` : ''}
+                            ${entry.activity === 'mama_sleep' ? `😴 Ύπνος: ${entry.hours} ώρες` : ''}
+                            ${entry.activity === 'breastfeeding' ? `🤱 Θηλασμός (${entry.side}) - ${entry.duration} λεπτά` : ''}
+                            ${entry.activity === 'exercise' ? `🚶‍♀️ Άσκηση (${entry.type}) - ${entry.duration} λεπτά` : ''}
+                        </div>
+                    </div>
+                    <div class="entry-actions">
+                        <button class="btn btn-danger btn-small" onclick="deleteEntry('mama', ${appData.mamaEntries.length - 1 - index})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    function deleteEntry(type, index) {
+        if (confirm('Είσαι σίγουρη ότι θέλεις να διαγράψεις αυτή την καταχώρηση;')) {
+            if (type === 'baby') {
+                appData.babyEntries.splice(index, 1);
+                updateBabyEntries();
+            } else {
+                appData.mamaEntries.splice(index, 1);
+                updateMamaEntries();
+            }
+            saveToStorage();
+            updateStats();
+        }
+    }
+
+    function updateStats() {
+        const today = new Date().toISOString().split('T')[0];
+
+        // Baby stats
+        const todayFeedings = appData.babyEntries.filter(e => e.date === today && e.activity === 'feeding').length;
+        const todayDiapers = appData.babyEntries.filter(e => e.date === today && e.activity === 'diaper').length;
+        const sleepEntries = appData.babyEntries.filter(e => e.date === today && e.activity === 'sleep');
+        const totalSleepMinutes = sleepEntries.reduce((sum, e) => sum + (parseInt(e.duration) || 0), 0);
+
+        document.getElementById('feedingCount').textContent = todayFeedings;
+        document.getElementById('diaperCount').textContent = todayDiapers;
+        document.getElementById('sleepHours').textContent = (totalSleepMinutes / 60).toFixed(1);
+
+        // Mama stats
+        const todayMood = appData.mamaEntries.filter(e => e.date === today && e.activity === 'mood');
+        if (todayMood.length > 0) {
+            const avgMood = todayMood.reduce((sum, e) => sum + parseInt(e.scale), 0) / todayMood.length;
+            document.getElementById('moodAvg').textContent = avgMood.toFixed(1) + '/10';
+        }
+    }
+
+    function updateUI() {
+        if (appData.babyProfile) {
+            document.getElementById('babySetup').style.display = 'none';
+            document.getElementById('babyData').style.display = 'block';
+            updateBabyEntries();
+        }
+
+        if (appData.mamaProfile) {
+            document.getElementById('mamaSetup').style.display = 'none';
+            document.getElementById('mamaData').style.display = 'block';
+            updateMamaEntries();
+        }
+
+        updateStats();
+    }
+
+    // Export functions
+    function exportBabyData() {
+        let csv = 'date,time,activity,type,value,duration,notes\n';
+        appData.babyEntries.forEach(e => {
+            csv += `${e.date},${e.time},${e.activity},${e.type || ''},${e.value || e.amount || ''},${e.duration || ''},${e.notes || ''}\n`;
+        });
+        downloadCSV(csv, 'baby_data.csv');
+    }
+
+    function exportMamaData() {
+        let csv = 'date,time,activity,type,value,notes\n';
+        appData.mamaEntries.forEach(e => {
+            csv += `${e.date},${e.time},${e.activity},${e.type || e.side || ''},${e.scale || e.hours || e.duration || ''},${e.notes || ''}\n`;
+        });
+        downloadCSV(csv, 'mama_data.csv');
+    }
+
+    function downloadCSV(content, filename) {
+        const blob = new Blob([content], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+    }
+
+    
+    // -------------------------
+    // CSV IMPORT (Profiles & Data)
+    // -------------------------
+    function parseCSVLineJS(line) {
+        const out = [];
+        let cur = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+
+            if (ch === '"') {
+                if (inQuotes && line[i + 1] === '"') {
+                    cur += '"';
+                    i++;
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (ch === ',' && !inQuotes) {
+                out.push(cur);
+                cur = '';
+            } else {
+                cur += ch;
+            }
+        }
+        out.push(cur);
+        return out.map(s => s.trim());
+    }
+
+    function parseCSVJS(text) {
+        const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim();
+        const lines = normalized.split('\n').filter(l => l.trim().length > 0);
+        if (lines.length === 0) return { headers: [], rows: [] };
+
+        const headers = parseCSVLineJS(lines[0]);
+        const rows = lines.slice(1).map(l => parseCSVLineJS(l));
+        return { headers, rows };
+    }
+
+    function csvToKeyValueMap(text) {
+        const { headers, rows } = parseCSVJS(text);
+        if (headers.length < 2) return null;
+
+        // Expect: field,value
+        const h0 = (headers[0] || '').toLowerCase();
+        const h1 = (headers[1] || '').toLowerCase();
+        if (h0 !== 'field' || h1 !== 'value') return null;
+
+        const map = {};
+        rows.forEach(r => {
+            const k = (r[0] || '').trim();
+            const v = (r[1] || '').trim();
+            if (k) map[k] = v;
+        });
+        return map;
+    }
+
+    function applyBabyProfileFromMap(map) {
+        // Map keys based on your BABY_PROFILE.csv
+        const baby = {
+            name: map.baby_name || map.name || '',
+            birthDate: map.birth_date || '',
+            birthWeight: map.birth_weight_kg || map.birth_weight || '',
+            birthHeight: map.birth_height_cm || map.birth_height || '',
+            birthHeadCircumference: map.birth_head_circumference_cm || map.birth_head_circumference || '',
+            bloodType: map.blood_type || '',
+            gender: map.gender || '',
+            notes: map.notes || ''
+        };
+
+        // Fill form (if visible)
+        const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+        setVal('babyName', baby.name);
+        setVal('babyBirthDate', baby.birthDate);
+        setVal('babyBirthWeight', baby.birthWeight);
+        setVal('babyBirthHeight', baby.birthHeight);
+        setVal('babyBirthHeadCircumference', baby.birthHeadCircumference);
+        setVal('babyBloodType', baby.bloodType);
+        setVal('babyGender', baby.gender);
+        setVal('babyNotes', baby.notes);
+
+        appData.babyProfile = baby;
+        saveToStorage();
+    }
+
+    function applyMamaProfileFromMap(map) {
+        // Map keys based on Main.java (loadMamaProfile)
+        const mama = {
+            name: map.name || map.mama_name || '',
+            lastMenstrualPeriod: map.last_menstrual_period || map.lmp || '',
+            expectedDueDate: map.expected_due_date || map.edd || '',
+            preWeight: map.pre_pregnancy_weight || map.pre_pregnancy_weight_kg || map.pre_weight || '',
+            bloodType: map.blood_type || '',
+            height: map.height || map.height_cm || '',
+            doctor: map.doctor_name || map.doctor || '',
+            doctorPhone: map.doctor_phone || '',
+            hospital: map.hospital || '',
+            allergies: map.allergies || '',
+            chronicConditions: map.chronic_conditions || '',
+            deliveryDate: map.delivery_date || '',
+            deliveryType: map.delivery_type || '',
+            babyName: map.baby_name || '',
+            notes: map.notes || ''
+        };
+
+        const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+        setVal('mamaName', mama.name);
+        setVal('mamaLMP', mama.lastMenstrualPeriod);
+        setVal('mamaDueDate', mama.expectedDueDate);
+        setVal('mamaPreWeight', mama.preWeight);
+        setVal('mamaBloodType', mama.bloodType);
+        setVal('mamaHeight', mama.height);
+        setVal('mamaDoctor', mama.doctor);
+        setVal('mamaDoctorPhone', mama.doctorPhone);
+        setVal('mamaHospital', mama.hospital);
+        setVal('mamaAllergies', mama.allergies);
+        setVal('mamaChronicConditions', mama.chronicConditions);
+        setVal('mamaDeliveryDate', mama.deliveryDate);
+        setVal('mamaDeliveryType', mama.deliveryType);
+        setVal('mamaBabyName', mama.babyName);
+        setVal('mamaNotes', mama.notes);
+
+        appData.mamaProfile = mama;
+        saveToStorage();
+    }
+
+    async function readFileAsText(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result || ''));
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(file);
+        });
+    }
+
+    async function analyzeUploadedFiles() {
+        const babyProfileFile = document.getElementById('babyProfileFile').files[0] || null;
+        const mamaProfileFile = document.getElementById('mamaProfileFile').files[0] || null;
+        const babyDataFile = document.getElementById('babyDataFile').files[0] || null;
+        const mamaDataFile = document.getElementById('mamaDataFile').files[0] || null;
+
+        // Profiles (key/value CSV)
+        if (babyProfileFile) {
+            const text = await readFileAsText(babyProfileFile);
+            const map = csvToKeyValueMap(text);
+            if (map) {
+                applyBabyProfileFromMap(map);
+            } else {
+                alert('⚠️ Το αρχείο Baby Profile δεν είναι σε μορφή field,value. Παρακαλώ έλεγξέ το.');
+            }
+        }
+
+        if (mamaProfileFile) {
+            const text = await readFileAsText(mamaProfileFile);
+            const map = csvToKeyValueMap(text);
+            if (map) {
+                applyMamaProfileFromMap(map);
+            } else {
+                // Αν ο χρήστης ανέβασε κατά λάθος το mama data (με header date,time,activity,...)
+                const { headers } = parseCSVJS(text);
+                const h0 = (headers[0] || '').toLowerCase();
+                const h2 = (headers[2] || '').toLowerCase();
+                if (h0 === 'date' && h2 === 'activity') {
+                    alert('ℹ️ Το αρχείο που ανέβασες στο "Mama Profile" φαίνεται να είναι Mama Data (ημερολόγιο). Βάλτο στο "Mama Data" για να το διαβάσουμε σωστά.');
+                } else {
+                    alert('⚠️ Το αρχείο Mama Profile δεν είναι σε μορφή field,value. Παρακαλώ έλεγξέ το.');
+                }
+            }
+        }
+
+        // Data files (optional - store raw rows for now)
+        if (babyDataFile) {
+            const text = await readFileAsText(babyDataFile);
+            const { headers, rows } = parseCSVJS(text);
+            // Minimal normalization to current app format, when possible
+            if (headers.length >= 3 && (headers[0].toLowerCase() === 'date') && (headers[2].toLowerCase() === 'activity')) {
+                appData.babyEntries = rows.map(r => ({
+                    date: r[0] || '',
+                    time: r[1] || '',
+                    activity: r[2] || '',
+                    type: r[3] || '',
+                    subtype: r[4] || '',
+                    value: r[5] || '',
+                    duration: r[6] || '',
+                    notes: r[7] || ''
+                })).filter(e => e.date && e.activity);
+                saveToStorage();
+            } else {
+                alert('⚠️ Το Baby Data CSV δεν έχει αναμενόμενη δομή (date,time,activity,...)');
+            }
+        }
+
+        if (mamaDataFile) {
+            const text = await readFileAsText(mamaDataFile);
+            const { headers, rows } = parseCSVJS(text);
+
+            // Accept big "mama_data_complete" style too — at minimum date/time/activity must exist.
+            if (headers.length >= 3 && headers[0].toLowerCase() === 'date' && headers[2].toLowerCase() === 'activity') {
+                const idx = (name) => headers.findIndex(h => h.toLowerCase() === name.toLowerCase());
+
+                const iMoodScale = idx('mood_scale');
+                const iDominantEmotion = idx('dominant_emotion');
+                const iNotes = idx('notes');
+
+                appData.mamaEntries = rows.map(r => {
+                    const activity = r[2] || '';
+                    const base = { date: r[0] || '', time: r[1] || '', activity };
+
+                    if (activity === 'mood') {
+                        return {
+                            ...base,
+                            scale: iMoodScale >= 0 ? (r[iMoodScale] || '') : '',
+                            emotion: iDominantEmotion >= 0 ? (r[iDominantEmotion] || '') : '',
+                            notes: iNotes >= 0 ? (r[iNotes] || '') : ''
+                        };
+                    }
+
+                    // fallback generic
+                    return {
+                        ...base,
+                        type: r[3] || '',
+                        subtype: r[4] || '',
+                        value: r[5] || '',
+                        notes: iNotes >= 0 ? (r[iNotes] || '') : ''
+                    };
+                }).filter(e => e.date && e.activity);
+
+                saveToStorage();
+            } else {
+                alert('⚠️ Το Mama Data CSV δεν έχει αναμενόμενη δομή (date,time,activity,...)');
+            }
+        }
+
+        // Reveal sections if we now have profiles
+        if (appData.babyProfile) {
+            document.getElementById('babySetup').style.display = 'none';
+            document.getElementById('babyData').style.display = 'block';
+        } else {
+            document.getElementById('babySetup').style.display = 'block';
+        }
+
+        if (appData.mamaProfile) {
+            document.getElementById('mamaSetup').style.display = 'none';
+            document.getElementById('mamaData').style.display = 'block';
+        } else {
+            document.getElementById('mamaSetup').style.display = 'block';
+        }
+
+        updateUI();
+        alert('✅ Τα αρχεία φορτώθηκαν και εφαρμόστηκαν!');
+        switchTab('stats'); // quick sanity check
+    }
+
+    function wireUploadUI() {
+        const map = [
+            ['babyProfileFile', 'babyProfileFileName'],
+            ['babyDataFile', 'babyDataFileName'],
+            ['mamaProfileFile', 'mamaProfileFileName'],
+            ['mamaDataFile', 'mamaDataFileName'],
+        ];
+
+        map.forEach(([inputId, labelId]) => {
+            const input = document.getElementById(inputId);
+            const label = document.getElementById(labelId);
+            if (!input || !label) return;
+
+            input.addEventListener('change', () => {
+                label.textContent = input.files && input.files[0] ? input.files[0].name : 'Επιλέξτε αρχείο...';
+                const anySelected = map.some(([id]) => {
+                    const el = document.getElementById(id);
+                    return el && el.files && el.files.length > 0;
+                });
+                document.getElementById('uploadAnalyzeBtn').disabled = !anySelected;
+            });
+        });
+
+        document.getElementById('uploadAnalyzeBtn').addEventListener('click', analyzeUploadedFiles);
+    }
+
+// Initialize
+    wireUploadUI();
+    loadFromStorage();
+    updateUI();
+</script>
+</body>
+</html>
